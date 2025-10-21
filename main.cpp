@@ -9,6 +9,18 @@ void clearInput() {
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
+int getValidInt(const string& prompt) {
+    int value;
+    while (true) {
+        cout << prompt;
+        if (cin >> value) {
+            return value;
+        }
+        cout << "Invalid input! Please enter a valid number.\n";
+        clearInput();
+    }
+}
+
 void printMenu() {
     cout << "\n========== Date Utility Program ==========\n";
     cout << "1. Create and validate a date\n";
@@ -22,13 +34,9 @@ void printMenu() {
 }
 
 void createAndValidateDate() {
-    int month, day, year;
-    cout << "\nEnter month (1-12): ";
-    cin >> month;
-    cout << "Enter day: ";
-    cin >> day;
-    cout << "Enter year: ";
-    cin >> year;
+    int month = getValidInt("\nEnter month (1-12): ");
+    int day = getValidInt("Enter day: ");
+    int year = getValidInt("Enter year: ");
 
     Date date(month, day, year);
     
@@ -48,9 +56,7 @@ void createAndValidateDate() {
 }
 
 void checkLeapYear() {
-    int year;
-    cout << "\nEnter year: ";
-    cin >> year;
+    int year = getValidInt("\nEnter year: ");
 
     Date date;
     if (date.isLeapYear(year)) {
@@ -63,11 +69,8 @@ void checkLeapYear() {
 }
 
 void getLastDay() {
-    int month, year;
-    cout << "\nEnter month (1-12): ";
-    cin >> month;
-    cout << "Enter year: ";
-    cin >> year;
+    int month = getValidInt("\nEnter month (1-12): ");
+    int year = getValidInt("Enter year: ");
 
     if (month < 1 || month > 12) {
         cout << "Invalid month! Must be between 1 and 12.\n";
@@ -80,13 +83,9 @@ void getLastDay() {
 }
 
 void displayFormats() {
-    int month, day, year;
-    cout << "\nEnter month (1-12): ";
-    cin >> month;
-    cout << "Enter day: ";
-    cin >> day;
-    cout << "Enter year: ";
-    cin >> year;
+    int month = getValidInt("\nEnter month (1-12): ");
+    int day = getValidInt("Enter day: ");
+    int year = getValidInt("Enter year: ");
 
     Date date(month, day, year);
     
@@ -135,21 +134,13 @@ void runTestSuite() {
 }
 
 int main() {
-    int choice;
-    
     cout << "Welcome to the Date Utility Program!\n";
     cout << "This program helps you validate dates, check leap years,\n";
     cout << "and format dates in various ways.\n";
 
     while (true) {
         printMenu();
-        
-        if (!(cin >> choice)) {
-            cout << "Invalid input! Please enter a number.\n";
-            clearInput();
-            continue;
-        }
-
+        int choice = getValidInt("");
         clearInput();
 
         switch (choice) {
