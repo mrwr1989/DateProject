@@ -1,0 +1,145 @@
+#include <iostream>
+#include <string>
+
+class Date {
+private:
+    int month;
+    int day;
+    int year;
+
+    static const std::string monthNames[13];
+
+    bool isValidDate(int m, int d, int y) const {
+        if (m < 1 || m > 12) {
+            std::cerr << "Month invalid\n";
+            return false;
+        }
+
+        int maxDay = lastDay(m, y);
+        if (d < 1 || d > maxDay) {
+            std::cerr << "Day invalid\n";
+            return false;
+        }
+
+        return true;
+    }
+
+public:
+    // Constructor with default parameters
+    Date(int m = 1, int d = 1, int y = 1900) {
+        setDate(m, d, y);
+    }
+
+    void setDate(int m, int d, int y) {
+        if (isValidDate(m, d, y)) {
+            month = m;
+            day = d;
+            year = y;
+        } else {
+            std::cerr << "Invalid date. Setting to default (1/1/1900).\n";
+            month = 1;
+            day = 1;
+            year = 1900;
+        }
+    }
+
+    // Accessors
+    int getMonth() const { return month; }
+    int getDay() const { return day; }
+    int getYear() const { return year; }
+
+    // Leap year check (no parameter)
+    bool isLeapYear() const {
+        return isLeapYear(year);
+    }
+
+    // Leap year check (with parameter)
+    bool isLeapYear(int y) const {
+        return ((y % 4 == 0 && y % 100 != 0) || (y % 400 == 0));
+    }
+
+    // Last day (no parameters)
+    int lastDay() const {
+        return lastDay(month, year);
+    }
+
+    // Last day (with parameters)
+    int lastDay(int m, int y) const {
+        switch (m) {
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                return 31;
+            case 4: case 6: case 9: case 11:
+                return 30;
+            case 2:
+                return isLeapYear(y) ? 29 : 28;
+            default:
+                return 0;
+        }
+    }
+
+    // Print formats
+    std::string printNumeric() const {
+        return std::to_string(month) + "/" + std::to_string(day) + "/" + std::to_string(year);
+    }
+
+    std::string printLongFormat() const {
+        return monthNames[month] + " " + std::to_string(day) + ", " + std::to_string(year);
+    }
+
+    std::string printLongDayFirst() const {
+        return std::to_string(day) + " " + monthNames[month] + " " + std::to_string(year);
+    }
+};
+
+// Define static month names
+const std::string Date::monthNames[13] = {
+    "", "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+};
+
+// Test helper
+void testDate(const Date& date, const std::string& label) {
+    std::cout << label << ": " << date.printNumeric() << "\n";
+}
+
+// Main function to demonstrate functionality
+int main() {
+    std::cout << "Test default constructor:\n";
+    Date date1;
+    testDate(date1, "Default");
+
+    std::cout << "\nTest constructor with valid date:\n";
+    Date date2(2, 28, 2009);
+    testDate(date2, "Valid Date");
+
+    std::cout << "\nTest constructor with invalid month (45, 2, 2009):\n";
+    Date date3(45, 2, 2009);
+    testDate(date3, "Invalid Month");
+
+    std::cout << "\nTest constructor with invalid day (2, 29, 2009):\n";
+    Date date4(2, 29, 2009);
+    testDate(date4, "Invalid Day");
+
+    std::cout << "\nTest setDate with bad month (13):\n";
+    Date date5;
+    date5.setDate(13, 10, 2009);
+    testDate(date5, "Set bad month");
+
+    std::cout << "\nTest setDate with bad day (4, 31, 2009):\n";
+    date5.setDate(4, 31, 2009);
+    testDate(date5, "Set bad day");
+
+    std::cout << "\nTest for leap year with bad date (2, 29, 2009):\n";
+    Date date6(2, 29, 2009);
+    testDate(date6, "Leap year - invalid");
+
+    std::cout << "\nTest for leap year with good date (2, 29, 2008):\n";
+    Date date7(2, 29, 2008);
+    testDate(date7, "Leap year - valid");
+
+    std::cout << "\nTest the print formats:\n";
+    std::cout << date7.printLongFormat() << "\n";
+    std::cout << date7.printLongDayFirst() << "\n";
+
+    return 0;
+}
