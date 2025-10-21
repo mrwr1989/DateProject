@@ -1,0 +1,28 @@
+# C++ compiled files
+*.o
+*.out
+*.exe
+*.app
+*.a
+*.so
+*.dylib
+
+# Executables
+date_utility
+main
+
+# Build directories
+build/
+bin/
+obj/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# System files
+.DS_Store
+Thumbs.db
