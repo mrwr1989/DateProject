@@ -19,6 +19,8 @@ A C++ command-line date utility program that provides date validation, formattin
 ## Recent Changes
 - 2025-10-21: Initial project setup with Date class implementation
 - 2025-10-21: Created organized project structure with separate header and source files
+- 2025-10-21: Implemented robust input validation with retry loops for all user inputs
+- 2025-10-21: Created interactive menu system with comprehensive error handling
 
 ## Build Instructions
 Run `make` to compile the program
